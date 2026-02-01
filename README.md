@@ -1,4 +1,4 @@
-# Clinical Trial Eligibility Assessment - Prostate Cancer
+# Clinical Trial Feasibility Analysis - Prostate Cancer
 
 A comprehensive data analytics portfolio project demonstrating clinical trial feasibility workflows used in pharmaceutical and biotechnology companies. This analysis evaluates patient recruitment potential for Abbott's non-metastatic prostate cancer trial using synthetic electronic health record (EHR) data.
 
@@ -33,7 +33,7 @@ Pharmaceutical companies invest millions in clinical trials, with patient recrui
 - Inclusion/exclusion criteria logic
 - Data visualization and executive reporting
 - Clinical domain expertise and analytical thinking
-- Data quality awareness and identifying limitations posed by synthetic EHR data for trial eligibility
+- Data quality awareness and identifying limitations posed by synthetic EHR data for trial feasibility
 
 ## Resources
 - ClinicalTrials.gov: https://clinicaltrials.gov/study/NCT00036556?term=NCT00036556&rank=1
