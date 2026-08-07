@@ -2,9 +2,8 @@
 
 A comprehensive data analytics portfolio project demonstrating clinical trial feasibility workflows used in pharmaceutical and biotechnology companies. This analysis evaluates patient recruitment potential for Abbott's non-metastatic prostate cancer trial using synthetic electronic health record (EHR) data.
 
-NOTE: Project is still a work in progress. PowerBi dashboard pending.
-
 ## Business Problem
+
 Pharmaceutical companies invest millions in clinical trials, with patient recruitment being one of the most significant challenges. Before launching a trial, sponsors must answer critical questions:
 
 - How many eligible patients exist in a given population?
@@ -13,20 +12,61 @@ Pharmaceutical companies invest millions in clinical trials, with patient recrui
 - What is the realistic recruitment timeline?
 
 ## Project Overview
+
 - **Therapeutic Area:** Non-metastatic prostate cancer
-- **Trial Protocol:** Study of Atrasentan in Men With Non-Metastatic, Hormone-Refractory Prostate Cancer (NCT00036556 | Sponsor: Abbott Laboratories) 
-- **Dataset:** Over 5,000 synthetic patients (Synthea<sup>1</sup>), 28 living prostate cancer patients
-- **Tools:** PostgreSQL, SQL, Power BI, pgAdmin4
-- **Key Finding:** 0% recruitment feasibility due to prior treatment with chemotherapy for all patients living prostate cancer patients who had received hormone therapy. This may suggest that this disease is rather aggresive in its onset/clincal treatment plan or a high prevelance of late stage diagnoses within our dataset. Next steps would be to expand patient population pool via looking into expanding to other healthcare sites or brainstorm with clinical teams ways to reach earlier stage prostate cancer patients.
+- **Trial Protocol:** Study of Atrasentan in Men With Non-Metastatic, Hormone-Refractory Prostate Cancer (NCT00036556 | Sponsor: Abbott Laboratories)
+- **Dataset:** Over 17,000 synthetic patients (Synthea), 191 living prostate cancer patients
+- **Tools:** Python (pandas, SQLAlchemy), PostgreSQL, SQL, Power BI, pgAdmin4
+- **Key Finding:** 0% recruitment feasibility due to prior treatment with chemotherapy for all living prostate cancer patients who had received hormone therapy. This may suggest that this disease is rather aggressive in its onset/clinical treatment plan or a high prevalence of late stage diagnoses within our dataset. Next steps would be to expand the patient population pool by looking into expanding to other healthcare sites or brainstorming with clinical teams ways to reach earlier stage prostate cancer patients.
+
+## Project Structure
+
+```
+Clinical_Trial_Feasibility_Analysis/
+├── notebooks/
+│   └── 01_data_validation.ipynb   # Loads, validates, and pushes Synthea CSVs into PostgreSQL
+├── sql/
+│   ├── 01_schema.sql              # Creates the database schema/tables
+│   ├── 02_patient_flags.sql       # Flags patients based on inclusion/exclusion criteria
+│   ├── 03_patient_meds.sql        # Identifies restricted prior medications and treatments
+│   └── 04_eligibility.sql         # Builds the final eligibility cohort
+├── data/
+│   └── synthea_seed.json          # Seed file used to regenerate the synthetic Synthea population
+├── requirements.txt               # Python dependencies
+├── .gitignore
+└── README.md
+```
+
+## How to Reproduce
+
+1. **Generate the synthetic data** using [Synthea](https://synthea.mitre.org/) with `data/synthea_seed.json` as the seed, producing the standard `output/csv/` export (patients, conditions, medications, procedures, encounters, organizations).
+2. **Set up PostgreSQL** and create a `.env` file in the project root with your database password:
+   ```
+   DB_PASSWORD=your_password_here
+   ```
+3. **Install Python dependencies:**
+   ```
+   pip install -r requirements.txt
+   ```
+4. **Create the database schema** by running `sql/01_schema.sql` against your PostgreSQL database (e.g. via pgAdmin4).
+5. **Run the validation notebook** (`notebooks/01_data_validation.ipynb`) to load, clean, and validate the Synthea CSVs, then push them into the PostgreSQL tables created in step 4.
+6. **Run the remaining SQL scripts in order** (`02_patient_flags.sql` → `03_patient_meds.sql` → `04_eligibility.sql`) to build the eligibility cohort.
+7. **Connect Power BI directly to the PostgreSQL database** for visualization *(dashboard in progress)*.
+
+> Originally, intermediate tables (eligibility, patient flags, patient medications) were manually exported to CSV and loaded into Power BI. The current pipeline connects Power BI directly to PostgreSQL instead, so these manual exports are no longer part of the workflow.
 
 ## Data Limitations & Assumptions
 
-- **PSA values:** Not available in synthetic data; documented as key limitation requiring additional data sources
-- **Performance status:** ECOG scores not captured; would require chart review in real-world implementation
-- **Medication indications:** As synthetic data did not always offer reasons why certain medications were taken assumptions had to be made for opioid use and raditaion treatment
-- **Temporal precision:** Some criteria require clinical judgment beyond structured data fields. This analysis should always be followed with confirmation and review by clinical staff since trial eligibility is often determined on a case-by-case basis.
+- **Synthetic data only:** All patient data (names, SSNs, dates) is synthetically generated by Synthea and does not represent real individuals.
+- **PSA values:** Not available in synthetic data; documented as a key limitation requiring additional data sources.
+- **Performance status:** ECOG scores not captured; would require chart review in a real-world implementation.
+- **Medication indications:** Since synthetic data did not always offer reasons why certain medications were taken, assumptions had to be made for opioid use and radiation treatment.
+- **Temporal precision:** Some criteria require clinical judgment beyond structured data fields. This analysis should always be followed with confirmation and review by clinical staff, since trial eligibility is often determined on a case-by-case basis.
 
 ## Skills Demonstrated
+
+- Data validation and quality checks with Python (pandas)
+- Programmatic loading of CSV data into a relational database (SQLAlchemy)
 - Complex SQL queries for patient cohort identification
 - Multi-table joins and data modeling
 - Healthcare terminology (SNOMED CT codes)
@@ -36,8 +76,10 @@ Pharmaceutical companies invest millions in clinical trials, with patient recrui
 - Data quality awareness and identifying limitations posed by synthetic EHR data for trial feasibility
 
 ## Resources
+
 - ClinicalTrials.gov: https://clinicaltrials.gov/study/NCT00036556?term=NCT00036556&rank=1
 - Synthea: https://synthea.mitre.org/
 
 ## Citations
+
 1. Jason Walonoski, Mark Kramer, Joseph Nichols, Andre Quina, Chris Moesel, Dylan Hall, Carlton Duffett, Kudakwashe Dube, Thomas Gallagher, Scott McLachlan, Synthea: An approach, method, and software mechanism for generating synthetic patients and the synthetic electronic health care record, Journal of the American Medical Informatics Association, Volume 25, Issue 3, March 2018, Pages 230–238, https://doi.org/10.1093/jamia/ocx079
