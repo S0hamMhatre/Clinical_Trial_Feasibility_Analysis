@@ -5,13 +5,17 @@
 -- This script creates the base database structure.
 -- In order to reproduce this analysis raw synthea CSV files should be 
 -- loaded into these tables prior to running any subsequent scripts.
---
--- Author: Soham Mhatre
--- Date: January 2026
 -- =======================================================================
+-- Drop prexisting tables
+DROP TABLE IF EXISTS procedures;
+DROP TABLE IF EXISTS organizations;
+DROP TABLE IF EXISTS medications;
+DROP TABLE IF EXISTS conditions;
+DROP TABLE IF EXISTS encounters;
+DROP TABLE IF EXISTS patients;
 
 -- Patients Table
-DROP TABLE IF EXISTS patients;
+
 CREATE TABLE patients (
     id VARCHAR(100) PRIMARY KEY,
     birthdate DATE,
@@ -44,7 +48,6 @@ CREATE TABLE patients (
 );
 
 -- Conditions Table (Diagnoses)
-DROP TABLE IF EXISTS conditions;
 CREATE TABLE conditions (
     start DATE,
     stop DATE,
@@ -56,7 +59,6 @@ CREATE TABLE conditions (
 );
 
 -- Medications Table
-DROP TABLE IF EXISTS medications;
 CREATE TABLE medications (
     start DATE,
     stop DATE,
@@ -74,7 +76,6 @@ CREATE TABLE medications (
 );
 
 -- Procedures Table
-DROP TABLE IF EXISTS procedures;
 CREATE TABLE procedures (
     start DATE,
     stop DATE,
@@ -89,7 +90,6 @@ CREATE TABLE procedures (
 );
 
 -- Encounters Table
-DROP TABLE IF EXISTS encounters;
 CREATE TABLE encounters (
     id VARCHAR(100) PRIMARY KEY,
     start TIMESTAMP,
@@ -109,7 +109,6 @@ CREATE TABLE encounters (
 );
 
 -- Organizations Table
-DROP TABLE IF EXISTS organizations;
 CREATE TABLE organizations (
     id VARCHAR(100) PRIMARY KEY,
     name VARCHAR(200),
