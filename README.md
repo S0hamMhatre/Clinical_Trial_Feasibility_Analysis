@@ -32,10 +32,9 @@ Clinical_Trial_Feasibility_Analysis/
 │   ├── 02_patient_flags.sql       # Flags patients based on inclusion/exclusion criteria
 │   ├── 03_patient_meds.sql        # Identifies restricted prior medications and treatments
 │   └── 04_eligibility.sql         # Builds the final eligibility cohort
-
-├── requirements.txt               # Python dependencies
 ├── .gitignore
-└── README.md
+├── README.md
+└── requirements.txt               # Python dependencies
 ```
 
 ## How to Reproduce
