@@ -23,6 +23,8 @@ Pharmaceutical companies invest millions in clinical trials, with patient recrui
 
 ```
 Clinical_Trial_Feasibility_Analysis/
+├── data/
+│   └── synthea_seed.json          # Seed file used to regenerate the synthetic Synthea population
 ├── notebooks/
 │   └── 01_data_validation.ipynb   # Loads, validates, and pushes Synthea CSVs into PostgreSQL
 ├── sql/
@@ -30,8 +32,7 @@ Clinical_Trial_Feasibility_Analysis/
 │   ├── 02_patient_flags.sql       # Flags patients based on inclusion/exclusion criteria
 │   ├── 03_patient_meds.sql        # Identifies restricted prior medications and treatments
 │   └── 04_eligibility.sql         # Builds the final eligibility cohort
-├── data/
-│   └── synthea_seed.json          # Seed file used to regenerate the synthetic Synthea population
+
 ├── requirements.txt               # Python dependencies
 ├── .gitignore
 └── README.md
